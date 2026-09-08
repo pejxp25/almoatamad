@@ -18,7 +18,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px}.card h2{font-size:18px;margin:0 0 14px}
 .formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}.field.full{grid-column:1/-1}
 input,select,textarea{width:100%;border:1px solid var(--line);background:#f9f9fb;border-radius:12px;padding:12px;outline:none;color:var(--text)}input:focus,select:focus,textarea:focus{border-color:#80bfff;background:#fff}textarea{min-height:75px;resize:vertical}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{padding:11px 16px;border-radius:12px;font-weight:700}.primary{background:var(--blue);color:white}.success{background:var(--green);color:white}.danger{background:#fff0ef;color:var(--red)}.secondary{background:#f0f0f5;color:var(--text)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{padding:11px 16px;border-radius:12px;font-weight:700}.mini{padding:7px 10px;border-radius:9px;font-size:12px;font-weight:700}.editbtn{background:#edf5ff;color:var(--blue)}.delbtn{background:#fff0ef;color:var(--red)}.primary{background:var(--blue);color:white}.success{background:var(--green);color:white}.danger{background:#fff0ef;color:var(--red)}.secondary{background:#f0f0f5;color:var(--text)}
 .tablewrap{overflow:auto;border:1px solid var(--line);border-radius:15px}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:12px;text-align:right;border-bottom:1px solid var(--line);font-size:13px}th{background:#f7f7f9;color:var(--muted);font-weight:700}tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700;background:#eef6ff;color:var(--blue)}.badge.green{background:#eaf9ee;color:#248a3d}.badge.orange{background:#fff4df;color:#b96b00}
 .search{margin-bottom:12px;position:relative}.search input{padding-right:40px}.search span{position:absolute;right:13px;top:10px}
 .empty{text-align:center;color:var(--muted);padding:28px}
@@ -28,10 +28,6 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
 .modal{display:none;position:fixed;inset:0;background:#0006;z-index:20;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modalbox{background:var(--card);border-radius:22px;width:min(520px,100%);padding:20px;max-height:90vh;overflow:auto}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modalhead h2{margin:0}
 .kpi{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.kpi:last-child{border:0}.profit{font-weight:800;color:var(--green)}.loss{font-weight:800;color:var(--red)}
 @media(max-width:760px){.app{padding:14px 12px 95px}.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.title{font-size:23px}.hero{padding:17px}}
-</style>
-<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon.svg">
-<style>
-.install-hint{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:16px;margin-bottom:16px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -179,8 +175,36 @@ function renderSales(){
 }
 function renderStock(){
  let q=($('stockSearch')?.value||'').toLowerCase();let ps=db.products.filter(p=>p.name.toLowerCase().includes(q));
- let rows=ps.map(p=>{let left=p.qty-p.sold,val=left*p.cost,margin=p.cost?((p.sales-p.sold*p.cost)/(p.sold*p.cost||1)*100):0;return[esc(p.name),`<span class="badge">${p.unit}</span>`,p.qty,p.sold,left,money(p.cost),money(val),p.sold?money(p.profit):'—']});
- $('stockTable').innerHTML=rows.length?table(['المنتج','الوحدة','المشتراة','المباع','المتبقي','متوسط الشراء','قيمة المتبقي','الربح'],rows):'<div class="empty">لا توجد منتجات</div>'
+ let rows=ps.map(p=>{let left=p.qty-p.sold,val=left*p.cost;return[esc(p.name),`<span class="badge">${p.unit}</span>`,p.qty,p.sold,left,money(p.cost),money(val),p.sold?money(p.profit):'—',`<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="mini editbtn" onclick="openEditProduct('${p.id}')">تعديل</button><button class="mini delbtn" onclick="deleteProduct('${p.id}')">حذف</button></div>`]});
+ $('stockTable').innerHTML=rows.length?table(['المنتج','الوحدة','المشتراة','المباع','المتبقي','متوسط الشراء','قيمة المتبقي','الربح','الإجراءات'],rows):'<div class="empty">لا توجد منتجات</div>'
+}
+function openEditProduct(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ $('editProductId').value=p.id;$('editName').value=p.name;$('editUnit').value=p.unit;$('editCost').value=p.cost||0;
+ $('editProductModal').classList.add('show');
+}
+function closeEditProduct(){$('editProductModal').classList.remove('show')}
+function saveProductEdit(){
+ let id=$('editProductId').value,p=db.products.find(x=>x.id===id);if(!p)return;
+ let name=$('editName').value.trim(),unit=$('editUnit').value,cost=+$('editCost').value;
+ if(!name||cost<0){toast('أدخل اسم المنتج وسعر الشراء بشكل صحيح');return}
+ let duplicate=db.products.find(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()&&x.unit===unit);
+ if(duplicate){toast('يوجد منتج آخر بنفس الاسم ونوع الوحدة');return}
+ p.name=name;p.unit=unit;p.cost=cost;
+ db.purchases.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
+ db.sales.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
+ save();closeEditProduct();toast('تم تعديل المنتج بنجاح');go('stock')
+}
+function deleteProduct(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ let hasSales=db.sales.some(x=>x.productId===id),hasPurchases=db.purchases.some(x=>x.productId===id);
+ let msg=`سيتم حذف المنتج "${p.name}" وجميع سجلات مشترياته ومبيعاته المرتبطة به.`;
+ if(hasSales)msg+='\n\nتنبيه: حذف المنتج سيؤثر أيضًا في إجمالي المبيعات والأرباح والتقارير.';
+ if(!confirm(msg+'\n\nهل تريد المتابعة؟'))return;
+ db.products=db.products.filter(x=>x.id!==id);
+ db.purchases=db.purchases.filter(x=>x.productId!==id);
+ db.sales=db.sales.filter(x=>x.productId!==id);
+ save();toast('تم حذف المنتج وسجلاته');go('stock')
 }
 function renderReports(){
  let t=totals(),sold=db.sales.reduce((a,x)=>a+x.qty,0),margin=t.sales? t.profit/t.sales*100:0;
@@ -240,6 +264,34 @@ function renderHome(){
  let arr=[...db.products].sort((a,b)=>b.sold-a.sold).slice(0,5);$('topProducts').innerHTML=arr.length?arr.map((p,i)=>`<div class="kpi"><span>${i+1}. ${esc(p.name)}</span><b>${p.sold} ${p.unit}</b></div>`).join(''):'<div class="empty">لا توجد مبيعات بعد</div>';
  $('recentSales').innerHTML=db.sales.length?table(['التاريخ','المنتج','الكمية','البيع','الربح'],db.sales.slice(0,6).map(s=>[s.date,esc(s.name),s.qty+' '+s.unit,money(s.qty*s.price),`<span class="profit">${money(s.profit)}</span>`])):'<div class="empty">لا توجد مبيعات بعد</div>'
 }
+function openEditProduct(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ $('editProductId').value=p.id;$('editName').value=p.name;$('editUnit').value=p.unit;$('editCost').value=p.cost||0;
+ $('editProductModal').classList.add('show');
+}
+function closeEditProduct(){$('editProductModal').classList.remove('show')}
+function saveProductEdit(){
+ let id=$('editProductId').value,p=db.products.find(x=>x.id===id);if(!p)return;
+ let name=$('editName').value.trim(),unit=$('editUnit').value,cost=+$('editCost').value;
+ if(!name||cost<0){toast('أدخل اسم المنتج وسعر الشراء بشكل صحيح');return}
+ let duplicate=db.products.find(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()&&x.unit===unit);
+ if(duplicate){toast('يوجد منتج آخر بنفس الاسم ونوع الوحدة');return}
+ p.name=name;p.unit=unit;p.cost=cost;
+ db.purchases.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
+ db.sales.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
+ save();closeEditProduct();toast('تم تعديل المنتج بنجاح');go('stock')
+}
+function deleteProduct(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ let hasSales=db.sales.some(x=>x.productId===id),hasPurchases=db.purchases.some(x=>x.productId===id);
+ let msg=`سيتم حذف المنتج "${p.name}" وجميع سجلات مشترياته ومبيعاته المرتبطة به.`;
+ if(hasSales)msg+='\n\nتنبيه: حذف المنتج سيؤثر أيضًا في إجمالي المبيعات والأرباح والتقارير.';
+ if(!confirm(msg+'\n\nهل تريد المتابعة؟'))return;
+ db.products=db.products.filter(x=>x.id!==id);
+ db.purchases=db.purchases.filter(x=>x.productId!==id);
+ db.sales=db.sales.filter(x=>x.productId!==id);
+ save();toast('تم حذف المنتج وسجلاته');go('stock')
+}
 function renderReports(){
  let t=totals(),sold=db.sales.reduce((a,x)=>a+x.qty,0),margin=t.sales? t.profit/t.sales*100:0;
  $('rSalesCount').textContent=db.sales.length;$('rBuyCount').textContent=db.purchases.length;$('rMargin').textContent=margin.toFixed(1)+'%';$('rAvg').textContent=money(sold?t.profit/sold:0);
@@ -249,9 +301,6 @@ function renderReports(){
 }
 
 renderAll();
-</script>
-<script>
-if ("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
 </html>
