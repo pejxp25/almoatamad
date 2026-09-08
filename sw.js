@@ -1,4 +1,4 @@
-const CACHE_NAME = 'almoatamad-v2';
+const CACHE_NAME = 'almoatamad-v3';
 const ASSETS = [
   './',
   './index.html',
