@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f5f5f7">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/svg+xml" href="icon.svg">
 <title>المعتمد</title>
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="المعتمد"><meta name="theme-color" content="#f5f5f7">
 <style>
-:root{--bg:#f5f5f7;--card:#fff;--text:#1c1c1e;--muted:#6e6e73;--line:#e5e5ea;--blue:#007aff;--green:#34c759;--red:#ff3b30;--shadow:0 6px 25px #0000000d}
+:root{--bg:#f5f5f7;--card:#fff;--text:#1c1c1e;--muted:#6e6e73;--line:#e5e5ea;--blue:#007aff;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--shadow:0 6px 25px #0000000d}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
 button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{max-width:1100px;margin:auto;padding:18px 18px 100px}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:var(--blue);color:white;display:grid;place-items:center;font-size:23px;font-weight:800;box-shadow:0 6px 15px #007aff30}.title{font-size:26px;font-weight:800}.subtitle{font-size:12px;color:var(--muted)}
@@ -18,14 +17,17 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.stat{background:var(--card);padding:17px;border-radius:19px;box-shadow:var(--shadow);min-height:105px}.stat .i{font-size:22px}.stat .l{color:var(--muted);font-size:13px;margin-top:9px}.stat .v{font-size:21px;font-weight:800;margin-top:4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px}.card h2{font-size:18px;margin:0 0 14px}
 .formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}.field.full{grid-column:1/-1}
-input,select,textarea{width:100%;border:1px solid var(--line);background:#f9f9fb;border-radius:12px;padding:12px;outline:none;color:var(--text)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{padding:11px 16px;border-radius:12px;font-weight:700}.mini{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700}.editbtn{background:#edf5ff;color:var(--blue)}.delbtn{background:#fff0ef;color:var(--red)}.primary{background:var(--blue);color:white}.success{background:var(--green);color:white}.danger{background:#fff0ef;color:var(--red)}.secondary{background:#f0f0f5;color:var(--text)}
-.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:15px}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:12px;text-align:right;border-bottom:1px solid var(--line);font-size:13px}th{background:#f7f7f9;color:var(--muted);font-weight:700}.badge{display:inline-block;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700;background:#eef6ff;color:var(--blue)}
-.search{margin-bottom:12px;position:relative}.search input{padding-right:40px}.search span{position:absolute;right:13px;top:10px}.empty{text-align:center;color:var(--muted);padding:28px}
+input,select,textarea{width:100%;border:1px solid var(--line);background:#f9f9fb;border-radius:12px;padding:12px;outline:none;color:var(--text)}input:focus,select:focus,textarea:focus{border-color:#80bfff;background:#fff}textarea{min-height:75px;resize:vertical}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{padding:11px 16px;border-radius:12px;font-weight:700}.mini{padding:7px 10px;border-radius:9px;font-size:12px;font-weight:700}.editbtn{background:#edf5ff;color:var(--blue)}.delbtn{background:#fff0ef;color:var(--red)}.primary{background:var(--blue);color:white}.success{background:var(--green);color:white}.danger{background:#fff0ef;color:var(--red)}.secondary{background:#f0f0f5;color:var(--text)}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:15px}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:12px;text-align:right;border-bottom:1px solid var(--line);font-size:13px}th{background:#f7f7f9;color:var(--muted);font-weight:700}tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700;background:#eef6ff;color:var(--blue)}.badge.green{background:#eaf9ee;color:#248a3d}.badge.orange{background:#fff4df;color:#b96b00}
+.search{margin-bottom:12px;position:relative}.search input{padding-right:40px}.search span{position:absolute;right:13px;top:10px}
+.empty{text-align:center;color:var(--muted);padding:28px}
+.progress{height:9px;background:#eee;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue);border-radius:99px}
 nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,calc(100% - 20px));background:#fffffff2;backdrop-filter:blur(18px);border:1px solid #dddde2;border-radius:20px 20px 0 0;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);z-index:10;box-shadow:0 -5px 25px #00000012}nav button{background:transparent;color:var(--muted);font-size:11px;padding:7px;border-radius:12px}nav button.active{color:var(--blue);background:#edf5ff}nav b{display:block;font-size:20px;margin-bottom:2px}
 .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-100px);background:#222;color:#fff;padding:12px 18px;border-radius:13px;z-index:99;transition:.3s;box-shadow:var(--shadow)}.toast.show{transform:translateX(-50%) translateY(0)}
 .modal{display:none;position:fixed;inset:0;background:#0006;z-index:20;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modalbox{background:var(--card);border-radius:22px;width:min(520px,100%);padding:20px;max-height:90vh;overflow:auto}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modalhead h2{margin:0}
-.kpi{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.profit{font-weight:800;color:var(--green)}.loss{font-weight:800;color:var(--red)}
+.kpi{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.kpi:last-child{border:0}.profit{font-weight:800;color:var(--green)}.loss{font-weight:800;color:var(--red)}.mini{padding:7px 10px;border-radius:9px;font-size:12px;font-weight:700;margin-left:5px}.editbtn{background:#edf5ff;color:var(--blue)}.delbtn{background:#fff0ef;color:var(--red)}
+@media(max-width:760px){.app{padding:14px 12px 95px}.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.title{font-size:23px}.hero{padding:17px}}
 </style>
 </head>
 <body>
@@ -35,6 +37,7 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
  <div class="brand"><div class="logo">م</div><div><div class="title">المعتمد</div><div class="subtitle">إدارة المشتريات والمبيعات والمخزون</div></div></div>
  <button class="iconbtn" onclick="openSettings()">⚙️</button>
 </header>
+
 <section id="home" class="view active">
  <div class="hero"><h1>لوحة التحكم</h1><p>نظرة سريعة على وضع تجارتك اليوم.</p></div>
  <div class="stats">
@@ -51,7 +54,7 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
 </section>
 
 <section id="buy" class="view">
- <div class="hero"><h1>إضافة شراء</h1><p>أضف منتجًا جديدًا إلى المخزون.</p></div>
+ <div class="hero"><h1>إضافة شراء</h1><p>أضف منتجًا جديدًا إلى المخزون. يمكنك تكرار العملية لأي عدد من المنتجات.</p></div>
  <div class="card">
   <div class="formgrid">
    <div class="field"><label>اسم المنتج</label><input id="bName" placeholder="مثال: سماعة بلوتوث"></div>
@@ -66,7 +69,7 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
 </section>
 
 <section id="sell" class="view">
- <div class="hero"><h1>تسجيل البيع</h1><p>اختر المنتج، أدخل الكمية وسعر البيع.</p></div>
+ <div class="hero"><h1>تسجيل البيع</h1><p>اختر المنتج، أدخل الكمية وسعر البيع، وسيتم حساب الربح تلقائيًا.</p></div>
  <div class="card">
   <div class="formgrid">
    <div class="field full"><label>المنتج</label><select id="vProduct" onchange="updateSellInfo()"></select></div>
@@ -82,18 +85,19 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
 </section>
 
 <section id="stock" class="view">
- <div class="hero"><h1>المخزون</h1><p>تابع الكميات والأسعار وإدارة المنتجات.</p></div>
+ <div class="hero"><h1>المخزون</h1><p>تابع الكميات والأسعار وقيمة المخزون لكل منتج.</p></div>
  <div class="card"><div class="search"><span>🔎</span><input id="stockSearch" placeholder="ابحث عن منتج..." oninput="renderStock()"></div><div id="stockTable"></div></div>
 </section>
+
 <section id="reports" class="view">
- <div class="hero"><h1>التقارير والإحصائيات</h1><p>تحليل المبيعات والأرباح.</p></div>
+ <div class="hero"><h1>التقارير والإحصائيات</h1><p>تحليل المبيعات والأرباح وحركة المنتجات.</p></div>
  <div class="stats">
   <div class="stat"><div class="i">🧾</div><div class="l">عدد عمليات البيع</div><div class="v" id="rSalesCount">0</div></div>
   <div class="stat"><div class="i">🛍️</div><div class="l">عدد عمليات الشراء</div><div class="v" id="rBuyCount">0</div></div>
   <div class="stat"><div class="i">📊</div><div class="l">نسبة الربح</div><div class="v" id="rMargin">0%</div></div>
   <div class="stat"><div class="i">💵</div><div class="l">متوسط ربح الوحدة</div><div class="v" id="rAvg">0 د.ع</div></div>
  </div>
- <div class="grid2"><div class="card"><h2>ترتيب المنتجات</h2><div id="ranking"></div></div><div class="card"><h2>تفاصيل مالية</h2><div id="finance"></div></div></div>
+ <div class="grid2"><div class="card"><h2>ترتيب المنتجات حسب المبيعات</h2><div id="ranking"></div></div><div class="card"><h2>تفاصيل مالية</h2><div id="finance"></div></div></div>
 </section>
 </div>
 
@@ -105,10 +109,25 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
  <button data-view="reports"><b>◔</b>التقارير</button>
 </nav>
 
+<div class="modal" id="purchaseEditModal">
+ <div class="modalbox">
+  <div class="modalhead"><h2>تعديل عملية شراء</h2><button class="iconbtn" onclick="closePurchaseEdit()">×</button></div>
+  <input type="hidden" id="editPurchaseId">
+  <div class="formgrid">
+   <div class="field full"><label>المنتج</label><input id="editPurchaseName" disabled></div>
+   <div class="field"><label>الكمية</label><input id="editPurchaseQty" type="number" min="1" step="1"></div>
+   <div class="field"><label>سعر الشراء للوحدة</label><input id="editPurchasePrice" type="number" min="0" step="1"></div>
+   <div class="field full"><label>ملاحظات</label><textarea id="editPurchaseNote"></textarea></div>
+  </div>
+  <div class="actions"><button class="btn primary" onclick="savePurchaseEdit()">حفظ التعديل</button><button class="btn secondary" onclick="closePurchaseEdit()">إلغاء</button></div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:0">يمكن تعديل الكمية والسعر والملاحظات. لن يسمح البرنامج بتقليل إجمالي مشتريات المنتج إلى أقل من الكمية المباعة.</p>
+ </div>
+</div>
+
 <div class="modal" id="settingsModal">
  <div class="modalbox">
   <div class="modalhead"><h2>إدارة البيانات</h2><button class="iconbtn" onclick="closeSettings()">×</button></div>
-  <p style="color:var(--muted)">بياناتك محفوظة تلقائيًا داخل المتصفح.</p>
+  <p style="color:var(--muted)">بياناتك محفوظة تلقائيًا داخل المتصفح على هذا الجهاز.</p>
   <div class="actions">
    <button class="btn primary" onclick="exportData()">نسخ احتياطي</button>
    <label class="btn secondary">استعادة بيانات<input type="file" accept=".json" hidden onchange="importData(event)"></label>
@@ -117,105 +136,63 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
  </div>
 </div>
 
-<div class="modal" id="editProductModal">
- <div class="modalbox">
-  <div class="modalhead">
-   <h2>تعديل بيانات المنتج</h2>
-   <button class="iconbtn" onclick="closeEditProduct()">×</button>
-  </div>
-  <input type="hidden" id="editProductId">
-  <div class="formgrid">
-   <div class="field full">
-    <label>اسم المنتج</label>
-    <input id="editName">
-   </div>
-   <div class="field">
-    <label>نوع الوحدة</label>
-    <select id="editUnit">
-     <option value="مفرد">مفرد</option>
-     <option value="زوج">زوج</option>
-    </select>
-   </div>
-   <div class="field">
-    <label>سعر الشراء للوحدة</label>
-    <input id="editCost" type="number" min="0" step="1">
-   </div>
-  </div>
-  <div class="actions" style="margin-top:16px;">
-   <button class="btn primary" onclick="saveProductEdit()">حفظ التعديلات</button>
-   <button class="btn secondary" onclick="closeEditProduct()">إلغاء</button>
-  </div>
- </div>
-</div>
-
 <script>
 const KEY="almoatamad_v1";
-let db = {products:[], purchases:[], sales:[], expenses:[]};
-try {
-    let stored = localStorage.getItem(KEY);
-    if (stored) {
-        let parsed = JSON.parse(stored);
-        if(parsed.products) db.products = parsed.products;
-        if(parsed.purchases) db.purchases = parsed.purchases;
-        if(parsed.sales) db.sales = parsed.sales;
-        if(parsed.expenses) db.expenses = parsed.expenses;
-    }
-} catch(e) {
-    console.log("Error loading data");
-}
-
+let db=JSON.parse(localStorage.getItem(KEY)||'{"products":[],"purchases":[],"sales":[]}');
 const $=id=>document.getElementById(id);
-const generateId = () => {
-    return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
-};
 const money=n=>new Intl.NumberFormat('ar-IQ').format(Math.round(Number(n)||0))+" د.ع";
 const now=()=>new Date().toLocaleString('ar-IQ',{dateStyle:'short',timeStyle:'short'});
 function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
 function toast(t){let e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
 function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(v).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));renderAll();scrollTo(0,0)}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));function addPurchase(){
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));
+
+function addPurchase(){
  let name=$('bName').value.trim(),unit=$('bUnit').value,qty=+$('bQty').value,price=+$('bPrice').value,note=$('bNote').value.trim();
  if(!name||qty<=0||price<0){toast('أدخل اسم المنتج والعدد والسعر بشكل صحيح');return}
  let p=db.products.find(x=>x.name.toLowerCase()===name.toLowerCase()&&x.unit===unit);
- if(!p){p={id:generateId(),name:name,unit:unit,qty:0,sold:0,cost:price,totalCost:0,sales:0,profit:0};db.products.push(p)}
+ if(!p){p={id:crypto.randomUUID(),name,unit,qty:0,sold:0,cost:price,totalCost:0,sales:0,profit:0};db.products.push(p)}
  p.qty+=qty;p.totalCost+=qty*price;p.cost=p.totalCost/p.qty;
- db.purchases.unshift({id:generateId(),productId:p.id,name:name,unit:unit,qty:qty,price:price,note:note,date:now()});
+ db.purchases.unshift({id:crypto.randomUUID(),productId:p.id,name,unit,qty,price,note,date:now()});
  save();clearBuy();toast('تمت إضافة الشراء بنجاح');go('buy')
 }
 function clearBuy(){$('bName').value='';$('bQty').value='';$('bPrice').value='';$('bNote').value=''}
 function updateSellSelect(){
- let s=$('vProduct'),old=s.value;
- s.innerHTML=db.products.map(p=>'<option value="'+p.id+'">'+esc(p.name)+' — '+p.unit+' — متوفر '+(p.qty-p.sold)+'</option>').join('');
+ let s=$('vProduct'),old=s.value;s.innerHTML=db.products.map(p=>`<option value="${p.id}">${esc(p.name)} — ${p.unit} — متوفر ${p.qty-p.sold}</option>`).join('');
  if(!db.products.length)s.innerHTML='<option value="">لا توجد منتجات</option>';
- let hasOld = false;
- for(let i=0; i<s.options.length; i++) { if(s.options[i].value===old) hasOld=true; }
- if(hasOld)s.value=old;
- updateSellInfo()
+ if([...s.options].some(o=>o.value===old))s.value=old;updateSellInfo()
 }
-function updateSellInfo(){let p=db.products.find(x=>x.id===$('vProduct').value);$('vAvailable').value=p?String(p.qty-p.sold)+' '+p.unit:'0';calcSell()}
+function updateSellInfo(){let p=db.products.find(x=>x.id===$('vProduct').value);$('vAvailable').value=p?`${p.qty-p.sold} ${p.unit}`:'0';calcSell()}
 function calcSell(){let p=db.products.find(x=>x.id===$('vProduct').value),q=+$('vQty').value||0,sp=+$('vPrice').value||0;$('vProfit').value=p?money((sp-p.cost)*q):money(0)}
 function addSale(){
  let p=db.products.find(x=>x.id===$('vProduct').value),q=+$('vQty').value,price=+$('vPrice').value,note=$('vNote').value.trim();
  if(!p||q<=0||price<0){toast('أدخل بيانات البيع بشكل صحيح');return}
  let avail=p.qty-p.sold;if(q>avail){toast('الكمية المطلوبة أكبر من المخزون');return}
  let profit=(price-p.cost)*q;p.sold+=q;p.sales+=q*price;p.profit+=profit;
- db.sales.unshift({id:generateId(),productId:p.id,name:p.name,unit:p.unit,qty:q,cost:p.cost,price:price,profit:profit,note:note,date:now()});
+ db.sales.unshift({id:crypto.randomUUID(),productId:p.id,name:p.name,unit:p.unit,qty:q,cost:p.cost,price,profit,note,date:now()});
  save();$('vQty').value='';$('vPrice').value='';$('vNote').value='';toast('تم تسجيل البيع');go('sell')
 }
-function table(headers,rows){return '<div class="tablewrap"><table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'}
-
-function renderStock(){
- let searchEl = $('stockSearch');
- let q = searchEl ? searchEl.value.toLowerCase() : '';
- let ps=db.products.filter(p=>p.name.toLowerCase().includes(q));
- let rows=ps.map(p=>{
-  let left=p.qty-p.sold,val=left*p.cost;
-  let btns='<div style="display:flex;gap:6px;"><button class="mini editbtn" onclick="openEditProduct(\''+p.id+'\')">تعديل</button><button class="mini delbtn" onclick="deleteProduct(\''+p.id+'\')">حذف</button></div>';
-  return [esc(p.name),'<span class="badge">'+p.unit+'</span>',p.qty,p.sold,left,money(p.cost),money(val),p.sold?money(p.profit):'—',btns];
- });
- $('stockTable').innerHTML=rows.length?table(['المنتج','الوحدة','المشتراة','المباع','المتبقي','سعر الشراء','قيمة المتبقي','الربح','الإجراءات'],rows):'<div class="empty">لا توجد منتجات بالمخزن</div>';
+function totals(){let purchase=db.purchases.reduce((a,x)=>a+x.qty*x.price,0),sales=db.sales.reduce((a,x)=>a+x.qty*x.price,0),profit=db.sales.reduce((a,x)=>a+x.profit,0),stock=db.products.reduce((a,x)=>a+(x.qty-x.sold)*x.cost,0);return{purchase,sales,profit,stock}}
+function renderHome(){
+ let t=totals();$('sPurch').textContent=money(t.purchase);$('sSales').textContent=money(t.sales);$('sProfit').textContent=money(t.profit);$('sStockVal').textContent=money(t.stock);
+ $('sProducts').textContent=db.products.length;$('sUnits').textContent=db.products.reduce((a,p)=>a+p.qty-p.sold,0);$('sSold').textContent=db.sales.reduce((a,s)=>a+s.qty,0);
+ let arr=[...db.products].sort((a,b)=>b.sold-a.sold).slice(0,5);$('topProducts').innerHTML=arr.length?arr.map((p,i)=>`<div class="kpi"><span>${i+1}. ${esc(p.name)}</span><b>${p.sold} ${p.unit}</b></div>`).join(''):'<div class="empty">لا توجد مبيعات بعد</div>';
+ $('recentSales').innerHTML=db.sales.length?table(['التاريخ','المنتج','الكمية','البيع','الربح'],db.sales.slice(0,6).map(s=>[s.date,esc(s.name),s.qty+' '+s.unit,money(s.qty*s.price),`<span class="profit">${money(s.profit)}</span>`])):'<div class="empty">لا توجد مبيعات بعد</div>'
 }
-
+function table(headers,rows){return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+function renderPurchases(){
+ let rows=db.purchases.map(x=>[x.date,esc(x.name),`<span class="badge">${x.unit}</span>`,x.qty,money(x.price),money(x.qty*x.price),x.note?esc(x.note):'—']);
+ $('purchasesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الوحدة','الإجمالي','ملاحظات'],rows):'<div class="empty">لا توجد مشتريات بعد</div>'
+}
+function renderSales(){
+ let rows=db.sales.map(x=>[x.date,esc(x.name),`<span class="badge">${x.unit}</span>`,x.qty,money(x.cost),money(x.price),`<span class="${x.profit>=0?'profit':'loss'}">${money(x.profit)}</span>`]);
+ $('salesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الشراء','سعر البيع','الربح'],rows):'<div class="empty">لا توجد مبيعات بعد</div>'
+}
+function renderStock(){
+ let q=($('stockSearch')?.value||'').toLowerCase();let ps=db.products.filter(p=>p.name.toLowerCase().includes(q));
+ let rows=ps.map(p=>{let left=p.qty-p.sold,val=left*p.cost;return[esc(p.name),`<span class="badge">${p.unit}</span>`,p.qty,p.sold,left,money(p.cost),money(val),p.sold?money(p.profit):'—',`<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="mini editbtn" onclick="openEditProduct('${p.id}')">تعديل</button><button class="mini delbtn" onclick="deleteProduct('${p.id}')">حذف</button></div>`]});
+ $('stockTable').innerHTML=rows.length?table(['المنتج','الوحدة','المشتراة','المباع','المتبقي','متوسط الشراء','قيمة المتبقي','الربح','الإجراءات'],rows):'<div class="empty">لا توجد منتجات</div>'
+}
 function openEditProduct(id){
  let p=db.products.find(x=>x.id===id);if(!p)return;
  $('editProductId').value=p.id;$('editName').value=p.name;$('editUnit').value=p.unit;$('editCost').value=p.cost||0;
@@ -225,36 +202,94 @@ function closeEditProduct(){$('editProductModal').classList.remove('show')}
 function saveProductEdit(){
  let id=$('editProductId').value,p=db.products.find(x=>x.id===id);if(!p)return;
  let name=$('editName').value.trim(),unit=$('editUnit').value,cost=+$('editCost').value;
- if(!name||cost<0){toast('أدخل الاسم والأسعار بشكل صحيح');return}
+ if(!name||cost<0){toast('أدخل اسم المنتج وسعر الشراء بشكل صحيح');return}
+ let duplicate=db.products.find(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()&&x.unit===unit);
+ if(duplicate){toast('يوجد منتج آخر بنفس الاسم ونوع الوحدة');return}
  p.name=name;p.unit=unit;p.cost=cost;
  db.purchases.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
  db.sales.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
- save();closeEditProduct();toast('تم تعديل المنتج بنجاح');
+ save();closeEditProduct();toast('تم تعديل المنتج بنجاح');go('stock')
 }
 function deleteProduct(id){
  let p=db.products.find(x=>x.id===id);if(!p)return;
- if(!confirm("هل أنت متأكد من حذف المنتج "+p.name+"؟ سيؤدي ذلك لحذف السجلات المرتبطة به."))return;
+ let hasSales=db.sales.some(x=>x.productId===id),hasPurchases=db.purchases.some(x=>x.productId===id);
+ let msg=`سيتم حذف المنتج "${p.name}" وجميع سجلات مشترياته ومبيعاته المرتبطة به.`;
+ if(hasSales)msg+='\n\nتنبيه: حذف المنتج سيؤثر أيضًا في إجمالي المبيعات والأرباح والتقارير.';
+ if(!confirm(msg+'\n\nهل تريد المتابعة؟'))return;
  db.products=db.products.filter(x=>x.id!==id);
  db.purchases=db.purchases.filter(x=>x.productId!==id);
  db.sales=db.sales.filter(x=>x.productId!==id);
- save();toast('تم حذف المنتج');
+ save();toast('تم حذف المنتج وسجلاته');go('stock')
 }
-
+function renderReports(){
+ let t=totals(),sold=db.sales.reduce((a,x)=>a+x.qty,0),margin=t.sales? t.profit/t.sales*100:0;
+ $('rSalesCount').textContent=db.sales.length;$('rBuyCount').textContent=db.purchases.length;$('rMargin').textContent=margin.toFixed(1)+'%';$('rAvg').textContent=money(sold?t.profit/sold:0);
+ let rank=[...db.products].sort((a,b)=>b.sold-a.sold).filter(p=>p.sold);let max=rank[0]?.sold||1;
+ $('ranking').innerHTML=rank.length?rank.slice(0,10).map(p=>`<div style="margin-bottom:15px"><div class="kpi"><span>${esc(p.name)}</span><b>${p.sold} ${p.unit}</b></div><div class="progress"><i style="width:${p.sold/max*100}%"></i></div></div>`).join(''):'<div class="empty">لا توجد بيانات كافية</div>';
+ $('finance').innerHTML=`<div class="kpi"><span>إجمالي المشتريات</span><b>${money(t.purchase)}</b></div><div class="kpi"><span>إجمالي المبيعات</span><b>${money(t.sales)}</b></div><div class="kpi"><span>صافي الربح</span><b class="profit">${money(t.profit)}</b></div><div class="kpi"><span>قيمة المخزون</span><b>${money(t.stock)}</b></div>`;
+}
+function renderAll(){renderHome();renderPurchases();renderSales();renderStock();renderReports();updateSellSelect()}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function openSettings(){$('settingsModal').classList.add('show')}function closeSettings(){$('settingsModal').classList.remove('show')}
-function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='المعتمد-النسخة-النهائية.json';a.click();URL.revokeObjectURL(a.href);toast('تم إنشاء النسخة الاحتياطية')}
-function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.products||!x.purchases||!x.sales)throw 0;db=x;save();closeSettings();toast('تمت استعادة البيانات')}catch(err){toast('ملف غير صالح')}};r.readAsText(f)}
-function resetData(){if(confirm('هل أنت متأكد؟ سيتم حذف جميع المشتريات والمبيعات والمنتجات.')){db={products:[],purchases:[],sales:[],expenses:[]};save();closeSettings();toast('تم حذف البيانات')}}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='المعتمد-نسخة-احتياطية.json';a.click();URL.revokeObjectURL(a.href);toast('تم إنشاء النسخة الاحتياطية')}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.products||!x.purchases||!x.sales)throw 0;db=x;save();closeSettings();toast('تمت استعادة البيانات')}catch{toast('ملف غير صالح')}};r.readAsText(f)}
+function resetData(){if(confirm('هل أنت متأكد؟ سيتم حذف جميع المشتريات والمبيعات والمنتجات.')){db={products:[],purchases:[],sales:[]};save();closeSettings();toast('تم حذف البيانات')}}
 
+// ===== إضافات الإصدار المطوّر =====
+db.expenses=db.expenses||[];
+function addExpense(){
+ let n=prompt("اسم المصروف (مثال: شحن، إعلان، تغليف):"); if(!n)return;
+ let v=+prompt("قيمة المصروف بالدينار:"); if(!(v>=0))return;
+ db.expenses.unshift({id:crypto.randomUUID(),name:n,value:v,date:now()});save();toast("تمت إضافة المصروف");
+}
+function recalcProduct(productId){
+ let p=db.products.find(x=>x.id===productId);if(!p)return;
+ let buys=db.purchases.filter(x=>x.productId===productId);
+ p.qty=buys.reduce((a,x)=>a+Number(x.qty||0),0);
+ p.totalCost=buys.reduce((a,x)=>a+Number(x.qty||0)*Number(x.price||0),0);
+ p.cost=p.qty?p.totalCost/p.qty:0;
+ p.sold=db.sales.filter(x=>x.productId===productId).reduce((a,x)=>a+Number(x.qty||0),0);
+ p.sales=db.sales.filter(x=>x.productId===productId).reduce((a,x)=>a+Number(x.qty||0)*Number(x.price||0),0);
+ p.profit=db.sales.filter(x=>x.productId===productId).reduce((a,x)=>a+Number(x.profit||0),0);
+}
+function openPurchaseEdit(id){
+ let x=db.purchases.find(v=>v.id===id);if(!x)return;
+ $('editPurchaseId').value=x.id;
+ $('editPurchaseName').value=x.name;
+ $('editPurchaseQty').value=x.qty;
+ $('editPurchasePrice').value=x.price;
+ $('editPurchaseNote').value=x.note||'';
+ $('purchaseEditModal').classList.add('show');
+}
+function closePurchaseEdit(){$('purchaseEditModal').classList.remove('show')}
+function savePurchaseEdit(){
+ let id=$('editPurchaseId').value,x=db.purchases.find(v=>v.id===id);if(!x)return;
+ let qty=+$('editPurchaseQty').value,price=+$('editPurchasePrice').value,note=$('editPurchaseNote').value.trim();
+ if(qty<=0||price<0){toast('أدخل الكمية والسعر بشكل صحيح');return}
+ let p=db.products.find(v=>v.id===x.productId);
+ if(!p){toast('المنتج المرتبط بالشراء غير موجود');return}
+ let sold=db.sales.filter(v=>v.productId===p.id).reduce((a,v)=>a+Number(v.qty||0),0);
+ let otherQty=db.purchases.filter(v=>v.productId===p.id&&v.id!==x.id).reduce((a,v)=>a+Number(v.qty||0),0);
+ if(otherQty+qty<sold){toast('لا يمكن جعل إجمالي المشتريات أقل من الكمية المباعة');return}
+ x.qty=qty;x.price=price;x.note=note;
+ recalcProduct(p.id);
+ save();closePurchaseEdit();toast('تم تعديل عملية الشراء بنجاح');go('buy');
+}
 function deletePurchase(id){
- if(!confirm("حذف عملية الشراء؟"))return;
  let x=db.purchases.find(a=>a.id===id);if(!x)return;
  let p=db.products.find(a=>a.id===x.productId);
- if(p){p.qty-=x.qty;p.totalCost-=x.qty*x.price;p.cost=p.qty?p.totalCost/p.qty:0;}
- db.purchases=db.purchases.filter(a=>a.id!==id);save();toast("تم الحذف");
+ if(p){
+  let sold=db.sales.filter(v=>v.productId===p.id).reduce((a,v)=>a+Number(v.qty||0),0);
+  let otherQty=db.purchases.filter(v=>v.productId===p.id&&v.id!==x.id).reduce((a,v)=>a+Number(v.qty||0),0);
+  if(otherQty<sold){toast('لا يمكن حذف هذه العملية لأن الكمية المباعة تعتمد عليها.');return}
+ }
+ if(!confirm(`هل تريد حذف عملية شراء "${x.name}"؟\nسيتم تعديل المخزون والتقارير المرتبطة بها.`))return;
+ db.purchases=db.purchases.filter(a=>a.id!==id);
+ if(p){recalcProduct(p.id);if(p.qty===0&&p.sold===0)db.products=db.products.filter(v=>v.id!==p.id)}
+ save();toast('تم حذف عملية الشراء');go('buy');
 }
 function deleteSale(id){
- if(!confirm("حذف عملية البيع؟"))return;
+ if(!confirm("حذف عملية البيع؟ سيتم إرجاع الكمية للمخزون."))return;
  let x=db.sales.find(a=>a.id===id);if(!x)return;
  let p=db.products.find(a=>a.id===x.productId);
  if(p){p.sold=Math.max(0,p.sold-x.qty);p.sales=Math.max(0,p.sales-x.qty*x.price);p.profit-=x.profit}
@@ -264,52 +299,71 @@ function totals(){
  let purchase=db.purchases.reduce((a,x)=>a+x.qty*x.price,0),
  sales=db.sales.reduce((a,x)=>a+x.qty*x.price,0),
  gross=db.sales.reduce((a,x)=>a+x.profit,0),
- expenses=db.expenses.reduce((a,x)=>a+(x.value||0),0),
+ expenses=db.expenses.reduce((a,x)=>a+x.value,0),
  profit=gross-expenses,
  stock=db.products.reduce((a,x)=>a+(x.qty-x.sold)*x.cost,0);
- return{purchase:purchase,sales:sales,gross:gross,expenses:expenses,profit:profit,stock:stock}
+ return{purchase,sales,gross,expenses,profit,stock}
 }
 function renderPurchases(){
- let rows=db.purchases.map(x=>[x.date,esc(x.name),'<span class="badge">'+x.unit+'</span>',x.qty,money(x.price),money(x.qty*x.price),x.note?esc(x.note):'—','<button class="btn danger" style="padding:6px 9px" onclick="deletePurchase(\''+x.id+'\')">حذف</button>']);
- $('purchasesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الوحدة','الإجمالي','ملاحظات','إجراء'],rows):'<div class="empty">لا توجد مشتريات بعد</div>'
+ let rows=db.purchases.map(x=>[
+  x.date,
+  esc(x.name),
+  `<span class="badge">${x.unit}</span>`,
+  x.qty,
+  money(x.price),
+  money(x.qty*x.price),
+  x.note?esc(x.note):'—',
+  `<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="mini editbtn" onclick="openPurchaseEdit('${x.id}')">تعديل</button><button class="mini delbtn" onclick="deletePurchase('${x.id}')">حذف</button></div>`
+ ]);
+ $('purchasesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الوحدة','الإجمالي','ملاحظات','الإجراءات'],rows):'<div class="empty">لا توجد مشتريات بعد</div>'
 }
 function renderSales(){
- let rows=db.sales.map(x=>[x.date,esc(x.name),'<span class="badge">'+x.unit+'</span>',x.qty,money(x.cost),money(x.price),'<span class="'+(x.profit>=0?'profit':'loss')+'">'+money(x.profit)+'</span>','<button class="btn danger" style="padding:6px 9px" onclick="deleteSale(\''+x.id+'\')">حذف</button>']);
- $('salesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الشراء','سعر البيع','الربح','إجراء'],rows):'<div class="empty">لا توجد مبيعات بعد</div>'function renderHome(){
- let t=totals();
- $('sPurch').textContent=money(t.purchase);$('sSales').textContent=money(t.sales);$('sProfit').textContent=money(t.profit);$('sStockVal').textContent=money(t.stock);
+ let rows=db.sales.map(x=>[x.date,esc(x.name),`<span class="badge">${x.unit}</span>`,x.qty,money(x.cost),money(x.price),`<span class="${x.profit>=0?'profit':'loss'}">${money(x.profit)}</span>`,`<button class="btn danger" style="padding:6px 9px" onclick="deleteSale('${x.id}')">حذف</button>`]);
+ $('salesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الشراء','سعر البيع','الربح',''],rows):'<div class="empty">لا توجد مبيعات بعد</div>'
+}
+function renderHome(){
+ let t=totals();$('sPurch').textContent=money(t.purchase);$('sSales').textContent=money(t.sales);$('sProfit').textContent=money(t.profit);$('sStockVal').textContent=money(t.stock);
  $('sProducts').textContent=db.products.length;$('sUnits').textContent=db.products.reduce((a,p)=>a+p.qty-p.sold,0);$('sSold').textContent=db.sales.reduce((a,s)=>a+s.qty,0);
- let arr=[...db.products].sort((a,b)=>b.sold-a.sold).slice(0,5);
- $('topProducts').innerHTML=arr.length?arr.map((p,i)=>'<div class="kpi"><span>'+(i+1)+'. '+esc(p.name)+'</span><b>'+p.sold+' '+p.unit+'</b></div>').join(''):'<div class="empty">لا توجد مبيعات بعد</div>';
- $('recentSales').innerHTML=db.sales.length?table(['التاريخ','المنتج','الكمية','البيع','الربح'],db.sales.slice(0,6).map(s=>[s.date,esc(s.name),s.qty+' '+s.unit,money(s.qty*s.price),'<span class="profit">'+money(s.profit)+'</span>'])):'<div class="empty">لا توجد مبيعات بعد</div>'
+ let arr=[...db.products].sort((a,b)=>b.sold-a.sold).slice(0,5);$('topProducts').innerHTML=arr.length?arr.map((p,i)=>`<div class="kpi"><span>${i+1}. ${esc(p.name)}</span><b>${p.sold} ${p.unit}</b></div>`).join(''):'<div class="empty">لا توجد مبيعات بعد</div>';
+ $('recentSales').innerHTML=db.sales.length?table(['التاريخ','المنتج','الكمية','البيع','الربح'],db.sales.slice(0,6).map(s=>[s.date,esc(s.name),s.qty+' '+s.unit,money(s.qty*s.price),`<span class="profit">${money(s.profit)}</span>`])):'<div class="empty">لا توجد مبيعات بعد</div>'
+}
+function openEditProduct(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ $('editProductId').value=p.id;$('editName').value=p.name;$('editUnit').value=p.unit;$('editCost').value=p.cost||0;
+ $('editProductModal').classList.add('show');
+}
+function closeEditProduct(){$('editProductModal').classList.remove('show')}
+function saveProductEdit(){
+ let id=$('editProductId').value,p=db.products.find(x=>x.id===id);if(!p)return;
+ let name=$('editName').value.trim(),unit=$('editUnit').value,cost=+$('editCost').value;
+ if(!name||cost<0){toast('أدخل اسم المنتج وسعر الشراء بشكل صحيح');return}
+ let duplicate=db.products.find(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()&&x.unit===unit);
+ if(duplicate){toast('يوجد منتج آخر بنفس الاسم ونوع الوحدة');return}
+ p.name=name;p.unit=unit;p.cost=cost;
+ db.purchases.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
+ db.sales.filter(x=>x.productId===id).forEach(x=>{x.name=name;x.unit=unit});
+ save();closeEditProduct();toast('تم تعديل المنتج بنجاح');go('stock')
+}
+function deleteProduct(id){
+ let p=db.products.find(x=>x.id===id);if(!p)return;
+ let hasSales=db.sales.some(x=>x.productId===id),hasPurchases=db.purchases.some(x=>x.productId===id);
+ let msg=`سيتم حذف المنتج "${p.name}" وجميع سجلات مشترياته ومبيعاته المرتبطة به.`;
+ if(hasSales)msg+='\n\nتنبيه: حذف المنتج سيؤثر أيضًا في إجمالي المبيعات والأرباح والتقارير.';
+ if(!confirm(msg+'\n\nهل تريد المتابعة؟'))return;
+ db.products=db.products.filter(x=>x.id!==id);
+ db.purchases=db.purchases.filter(x=>x.productId!==id);
+ db.sales=db.sales.filter(x=>x.productId!==id);
+ save();toast('تم حذف المنتج وسجلاته');go('stock')
 }
 function renderReports(){
  let t=totals(),sold=db.sales.reduce((a,x)=>a+x.qty,0),margin=t.sales? t.profit/t.sales*100:0;
  $('rSalesCount').textContent=db.sales.length;$('rBuyCount').textContent=db.purchases.length;$('rMargin').textContent=margin.toFixed(1)+'%';$('rAvg').textContent=money(sold?t.profit/sold:0);
- let rank=[...db.products].sort((a,b)=>b.sold-a.sold).filter(p=>p.sold);
- $('ranking').innerHTML=rank.length?rank.slice(0,10).map(p=>'<div style="margin-bottom:15px"><div class="kpi"><span>'+esc(p.name)+'</span><b>'+p.sold+' '+p.unit+'</b></div></div>').join(''):'<div class="empty">لا توجد بيانات كافية</div>';
- $('finance').innerHTML='<div class="kpi"><span>إجمالي المشتريات</span><b>'+money(t.purchase)+'</b></div><div class="kpi"><span>إجمالي المبيعات</span><b>'+money(t.sales)+'</b></div><div class="kpi"><span>صافي الربح الحقيقي</span><b class="profit">'+money(t.profit)+'</b></div><div class="kpi"><span>قيمة المخزون</span><b>'+money(t.stock)+'</b></div>';
+ let rank=[...db.products].sort((a,b)=>b.sold-a.sold).filter(p=>p.sold);let max=rank[0]?.sold||1;
+ $('ranking').innerHTML=rank.length?rank.slice(0,10).map(p=>`<div style="margin-bottom:15px"><div class="kpi"><span>${esc(p.name)}</span><b>${p.sold} ${p.unit}</b></div><div class="progress"><i style="width:${p.sold/max*100}%"></i></div></div>`).join(''):'<div class="empty">لا توجد بيانات كافية</div>';
+ $('finance').innerHTML=`<div class="kpi"><span>إجمالي المشتريات</span><b>${money(t.purchase)}</b></div><div class="kpi"><span>إجمالي المبيعات</span><b>${money(t.sales)}</b></div><div class="kpi"><span>الربح قبل المصاريف</span><b>${money(t.gross)}</b></div><div class="kpi"><span>المصاريف</span><b class="loss">${money(t.expenses)}</b></div><div class="kpi"><span>صافي الربح الحقيقي</span><b class="profit">${money(t.profit)}</b></div><div class="kpi"><span>قيمة المخزون</span><b>${money(t.stock)}</b></div><button class="btn secondary" onclick="addExpense()">+ إضافة مصروف</button>`;
 }
 
-function renderAll(){renderHome();renderPurchases();renderSales();renderStock();renderReports();updateSellSelect()}
-
-// Start App
 renderAll();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').then(reg => {
-      reg.onupdatefound = () => {
-        const installingWorker = reg.installing;
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            window.location.reload();
-          }
-        };
-      };
-    }).catch(err => console.log('SW registration failed: ', err));
-  });
-}
 </script>
 </body>
 </html>
