@@ -35,7 +35,6 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
  <div class="brand"><div class="logo">م</div><div><div class="title">المعتمد</div><div class="subtitle">إدارة المشتريات والمبيعات والمخزون</div></div></div>
  <button class="iconbtn" onclick="openSettings()">⚙️</button>
 </header>
-
 <section id="home" class="view active">
  <div class="hero"><h1>لوحة التحكم</h1><p>نظرة سريعة على وضع تجارتك اليوم.</p></div>
  <div class="stats">
@@ -86,7 +85,6 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
  <div class="hero"><h1>المخزون</h1><p>تابع الكميات والأسعار وإدارة المنتجات.</p></div>
  <div class="card"><div class="search"><span>🔎</span><input id="stockSearch" placeholder="ابحث عن منتج..." oninput="renderStock()"></div><div id="stockTable"></div></div>
 </section>
-
 <section id="reports" class="view">
  <div class="hero"><h1>التقارير والإحصائيات</h1><p>تحليل المبيعات والأرباح.</p></div>
  <div class="stats">
@@ -152,49 +150,68 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,
 
 <script>
 const KEY="almoatamad_v1";
-let db=JSON.parse(localStorage.getItem(KEY)||'{"products":[],"purchases":[],"sales":[]}');
+let db = {products:[], purchases:[], sales:[], expenses:[]};
+try {
+    let stored = localStorage.getItem(KEY);
+    if (stored) {
+        let parsed = JSON.parse(stored);
+        if(parsed.products) db.products = parsed.products;
+        if(parsed.purchases) db.purchases = parsed.purchases;
+        if(parsed.sales) db.sales = parsed.sales;
+        if(parsed.expenses) db.expenses = parsed.expenses;
+    }
+} catch(e) {
+    console.log("Error loading data");
+}
+
 const $=id=>document.getElementById(id);
+const generateId = () => {
+    return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+};
 const money=n=>new Intl.NumberFormat('ar-IQ').format(Math.round(Number(n)||0))+" د.ع";
 const now=()=>new Date().toLocaleString('ar-IQ',{dateStyle:'short',timeStyle:'short'});
 function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
 function toast(t){let e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
 function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(v).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));renderAll();scrollTo(0,0)}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));
-
-function addPurchase(){
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));function addPurchase(){
  let name=$('bName').value.trim(),unit=$('bUnit').value,qty=+$('bQty').value,price=+$('bPrice').value,note=$('bNote').value.trim();
  if(!name||qty<=0||price<0){toast('أدخل اسم المنتج والعدد والسعر بشكل صحيح');return}
  let p=db.products.find(x=>x.name.toLowerCase()===name.toLowerCase()&&x.unit===unit);
- if(!p){p={id:crypto.randomUUID(),name,unit,qty:0,sold:0,cost:price,totalCost:0,sales:0,profit:0};db.products.push(p)}
+ if(!p){p={id:generateId(),name:name,unit:unit,qty:0,sold:0,cost:price,totalCost:0,sales:0,profit:0};db.products.push(p)}
  p.qty+=qty;p.totalCost+=qty*price;p.cost=p.totalCost/p.qty;
- db.purchases.unshift({id:crypto.randomUUID(),productId:p.id,name,unit,qty,price,note,date:now()});
+ db.purchases.unshift({id:generateId(),productId:p.id,name:name,unit:unit,qty:qty,price:price,note:note,date:now()});
  save();clearBuy();toast('تمت إضافة الشراء بنجاح');go('buy')
 }
 function clearBuy(){$('bName').value='';$('bQty').value='';$('bPrice').value='';$('bNote').value=''}
 function updateSellSelect(){
- let s=$('vProduct'),old=s.value;s.innerHTML=db.products.map(p=>`<option value="${p.id}">${esc(p.name)} — ${p.unit} — متوفر ${p.qty-p.sold}</option>`).join('');
+ let s=$('vProduct'),old=s.value;
+ s.innerHTML=db.products.map(p=>'<option value="'+p.id+'">'+esc(p.name)+' — '+p.unit+' — متوفر '+(p.qty-p.sold)+'</option>').join('');
  if(!db.products.length)s.innerHTML='<option value="">لا توجد منتجات</option>';
- if([...s.options].some(o=>o.value===old))s.value=old;updateSellInfo()
+ let hasOld = false;
+ for(let i=0; i<s.options.length; i++) { if(s.options[i].value===old) hasOld=true; }
+ if(hasOld)s.value=old;
+ updateSellInfo()
 }
-function updateSellInfo(){let p=db.products.find(x=>x.id===$('vProduct').value);$('vAvailable').value=p?`${p.qty-p.sold} ${p.unit}`:'0';calcSell()}
+function updateSellInfo(){let p=db.products.find(x=>x.id===$('vProduct').value);$('vAvailable').value=p?String(p.qty-p.sold)+' '+p.unit:'0';calcSell()}
 function calcSell(){let p=db.products.find(x=>x.id===$('vProduct').value),q=+$('vQty').value||0,sp=+$('vPrice').value||0;$('vProfit').value=p?money((sp-p.cost)*q):money(0)}
 function addSale(){
  let p=db.products.find(x=>x.id===$('vProduct').value),q=+$('vQty').value,price=+$('vPrice').value,note=$('vNote').value.trim();
  if(!p||q<=0||price<0){toast('أدخل بيانات البيع بشكل صحيح');return}
  let avail=p.qty-p.sold;if(q>avail){toast('الكمية المطلوبة أكبر من المخزون');return}
  let profit=(price-p.cost)*q;p.sold+=q;p.sales+=q*price;p.profit+=profit;
- db.sales.unshift({id:crypto.randomUUID(),productId:p.id,name:p.name,unit:p.unit,qty:q,cost:p.cost,price,profit,note,date:now()});
+ db.sales.unshift({id:generateId(),productId:p.id,name:p.name,unit:p.unit,qty:q,cost:p.cost,price:price,profit:profit,note:note,date:now()});
  save();$('vQty').value='';$('vPrice').value='';$('vNote').value='';toast('تم تسجيل البيع');go('sell')
 }
-function table(headers,rows){return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+function table(headers,rows){return '<div class="tablewrap"><table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'}
 
 function renderStock(){
- let q=($('stockSearch')?.value||'').toLowerCase();
+ let searchEl = $('stockSearch');
+ let q = searchEl ? searchEl.value.toLowerCase() : '';
  let ps=db.products.filter(p=>p.name.toLowerCase().includes(q));
  let rows=ps.map(p=>{
   let left=p.qty-p.sold,val=left*p.cost;
-  let btns=`<div style="display:flex;gap:6px;"><button class="mini editbtn" onclick="openEditProduct('${p.id}')">تعديل</button><button class="mini delbtn" onclick="deleteProduct('${p.id}')">حذف</button></div>`;
-  return [esc(p.name),`<span class="badge">${p.unit}</span>`,p.qty,p.sold,left,money(p.cost),money(val),p.sold?money(p.profit):'—',btns];
+  let btns='<div style="display:flex;gap:6px;"><button class="mini editbtn" onclick="openEditProduct(\''+p.id+'\')">تعديل</button><button class="mini delbtn" onclick="deleteProduct(\''+p.id+'\')">حذف</button></div>';
+  return [esc(p.name),'<span class="badge">'+p.unit+'</span>',p.qty,p.sold,left,money(p.cost),money(val),p.sold?money(p.profit):'—',btns];
  });
  $('stockTable').innerHTML=rows.length?table(['المنتج','الوحدة','المشتراة','المباع','المتبقي','سعر الشراء','قيمة المتبقي','الربح','الإجراءات'],rows):'<div class="empty">لا توجد منتجات بالمخزن</div>';
 }
@@ -226,10 +243,9 @@ function deleteProduct(id){
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function openSettings(){$('settingsModal').classList.add('show')}function closeSettings(){$('settingsModal').classList.remove('show')}
 function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='المعتمد-النسخة-النهائية.json';a.click();URL.revokeObjectURL(a.href);toast('تم إنشاء النسخة الاحتياطية')}
-function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.products||!x.purchases||!x.sales)throw 0;db=x;save();closeSettings();toast('تمت استعادة البيانات')}catch{toast('ملف غير صالح')}};r.readAsText(f)}
-function resetData(){if(confirm('هل أنت متأكد؟ سيتم حذف جميع المشتريات والمبيعات والمنتجات.')){db={products:[],purchases:[],sales:[]};save();closeSettings();toast('تم حذف البيانات')}}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.products||!x.purchases||!x.sales)throw 0;db=x;save();closeSettings();toast('تمت استعادة البيانات')}catch(err){toast('ملف غير صالح')}};r.readAsText(f)}
+function resetData(){if(confirm('هل أنت متأكد؟ سيتم حذف جميع المشتريات والمبيعات والمنتجات.')){db={products:[],purchases:[],sales:[],expenses:[]};save();closeSettings();toast('تم حذف البيانات')}}
 
-db.expenses=db.expenses||[];
 function deletePurchase(id){
  if(!confirm("حذف عملية الشراء؟"))return;
  let x=db.purchases.find(a=>a.id===id);if(!x)return;
@@ -248,20 +264,52 @@ function totals(){
  let purchase=db.purchases.reduce((a,x)=>a+x.qty*x.price,0),
  sales=db.sales.reduce((a,x)=>a+x.qty*x.price,0),
  gross=db.sales.reduce((a,x)=>a+x.profit,0),
- expenses=db.expenses.reduce((a,x)=>a+x.value,0),
+ expenses=db.expenses.reduce((a,x)=>a+(x.value||0),0),
  profit=gross-expenses,
  stock=db.products.reduce((a,x)=>a+(x.qty-x.sold)*x.cost,0);
- return{purchase,sales,gross,expenses,profit,stock}
+ return{purchase:purchase,sales:sales,gross:gross,expenses:expenses,profit:profit,stock:stock}
 }
 function renderPurchases(){
- let rows=db.purchases.map(x=>[x.date,esc(x.name),`<span class="badge">${x.unit}</span>`,x.qty,money(x.price),money(x.qty*x.price),x.note?esc(x.note):'—',`<button class="btn danger" style="padding:6px 9px" onclick="deletePurchase('${x.id}')">حذف</button>`]);
+ let rows=db.purchases.map(x=>[x.date,esc(x.name),'<span class="badge">'+x.unit+'</span>',x.qty,money(x.price),money(x.qty*x.price),x.note?esc(x.note):'—','<button class="btn danger" style="padding:6px 9px" onclick="deletePurchase(\''+x.id+'\')">حذف</button>']);
  $('purchasesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الوحدة','الإجمالي','ملاحظات','إجراء'],rows):'<div class="empty">لا توجد مشتريات بعد</div>'
 }
 function renderSales(){
- let rows=db.sales.map(x=>[x.date,esc(x.name),`<span class="badge">${x.unit}</span>`,x.qty,money(x.cost),money(x.price),`<span class="${x.profit>=0?'profit':'loss'}">${money(x.profit)}</span>`,`<button class="btn danger" style="padding:6px 9px" onclick="deleteSale('${x.id}')">حذف</button>`]);
- $('salesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الشراء','سعر البيع','الربح','إجراء'],rows):'<div class="empty">لا توجد مبيعات بعد</div>'
-}
-function renderHome(){
- let t=totals();$('sPurch').textContent=money(t.purchase);$('sSales').textContent=money(t.sales);$('sProfit').textContent=money(t.profit);$('sStockVal').textContent=money(t.stock);
+ let rows=db.sales.map(x=>[x.date,esc(x.name),'<span class="badge">'+x.unit+'</span>',x.qty,money(x.cost),money(x.price),'<span class="'+(x.profit>=0?'profit':'loss')+'">'+money(x.profit)+'</span>','<button class="btn danger" style="padding:6px 9px" onclick="deleteSale(\''+x.id+'\')">حذف</button>']);
+ $('salesTable').innerHTML=rows.length?table(['التاريخ','المنتج','الوحدة','العدد','سعر الشراء','سعر البيع','الربح','إجراء'],rows):'<div class="empty">لا توجد مبيعات بعد</div>'function renderHome(){
+ let t=totals();
+ $('sPurch').textContent=money(t.purchase);$('sSales').textContent=money(t.sales);$('sProfit').textContent=money(t.profit);$('sStockVal').textContent=money(t.stock);
  $('sProducts').textContent=db.products.length;$('sUnits').textContent=db.products.reduce((a,p)=>a+p.qty-p.sold,0);$('sSold').textContent=db.sales.reduce((a,s)=>a+s.qty,0);
- let arr=[...db.products].sort((a,b)=>b.sold-a.sold).slice(0,5);$('topProducts').innerHTML=arr.length?arr.map((p,i)=>`<div class="kpi"><span>${i+1}. ${esc(p.name)}</span><b>${p.sold} ${p.unit}</b></div>`).join(''):'<div class="empty">لا توجد مبيعات بعد</d
+ let arr=[...db.products].sort((a,b)=>b.sold-a.sold).slice(0,5);
+ $('topProducts').innerHTML=arr.length?arr.map((p,i)=>'<div class="kpi"><span>'+(i+1)+'. '+esc(p.name)+'</span><b>'+p.sold+' '+p.unit+'</b></div>').join(''):'<div class="empty">لا توجد مبيعات بعد</div>';
+ $('recentSales').innerHTML=db.sales.length?table(['التاريخ','المنتج','الكمية','البيع','الربح'],db.sales.slice(0,6).map(s=>[s.date,esc(s.name),s.qty+' '+s.unit,money(s.qty*s.price),'<span class="profit">'+money(s.profit)+'</span>'])):'<div class="empty">لا توجد مبيعات بعد</div>'
+}
+function renderReports(){
+ let t=totals(),sold=db.sales.reduce((a,x)=>a+x.qty,0),margin=t.sales? t.profit/t.sales*100:0;
+ $('rSalesCount').textContent=db.sales.length;$('rBuyCount').textContent=db.purchases.length;$('rMargin').textContent=margin.toFixed(1)+'%';$('rAvg').textContent=money(sold?t.profit/sold:0);
+ let rank=[...db.products].sort((a,b)=>b.sold-a.sold).filter(p=>p.sold);
+ $('ranking').innerHTML=rank.length?rank.slice(0,10).map(p=>'<div style="margin-bottom:15px"><div class="kpi"><span>'+esc(p.name)+'</span><b>'+p.sold+' '+p.unit+'</b></div></div>').join(''):'<div class="empty">لا توجد بيانات كافية</div>';
+ $('finance').innerHTML='<div class="kpi"><span>إجمالي المشتريات</span><b>'+money(t.purchase)+'</b></div><div class="kpi"><span>إجمالي المبيعات</span><b>'+money(t.sales)+'</b></div><div class="kpi"><span>صافي الربح الحقيقي</span><b class="profit">'+money(t.profit)+'</b></div><div class="kpi"><span>قيمة المخزون</span><b>'+money(t.stock)+'</b></div>';
+}
+
+function renderAll(){renderHome();renderPurchases();renderSales();renderStock();renderReports();updateSellSelect()}
+
+// Start App
+renderAll();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+      reg.onupdatefound = () => {
+        const installingWorker = reg.installing;
+        installingWorker.onstatechange = () => {
+          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            window.location.reload();
+          }
+        };
+      };
+    }).catch(err => console.log('SW registration failed: ', err));
+  });
+}
+</script>
+</body>
+</html>
